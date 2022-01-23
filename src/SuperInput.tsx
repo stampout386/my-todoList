@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {Fab, Icon, TextField} from "@mui/material";
+import {Button, Fab, Icon, TextField} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 
 
@@ -31,7 +31,7 @@ const SuperInput = (props: SuperInputPropsType) => {
             setTitle('')
         } else {
             setTitle(e.currentTarget.value)
-            setError('Title is correct')
+            setError('Enter Title')
         }
 
     }
@@ -42,17 +42,22 @@ const SuperInput = (props: SuperInputPropsType) => {
             setTitle('')
         }
     }
-
-    let spanClassName = error === 'Title is incorrect' ? 'error-message' : 'ok';
     return (
         <div>
-            {/*<input value={title} type="text" onChange={onChangeHandler} onKeyPress={onKeyPress}/>*/}
-            <TextField id="outlined-basic" variant="outlined" value={title} type="text" onChange={onChangeHandler}
-                       onKeyPress={onKeyPress} label={error}/>
-            <Fab color="primary" aria-label="add" onClick={addHandler} size={'small'}>
+            {error === 'Title is incorrect' ?
+                <TextField error id="outlined-error" label="Title is incorrect" defaultValue="Title is incorrect"
+                           value={title}
+                           onChange={onChangeHandler}/>
+                : <TextField id="outlined-basic" variant="outlined" label="Enter Title" defaultValue="Enter Title"
+                             value={title} type="text" onChange={onChangeHandler}
+                             onKeyPress={onKeyPress}/>}
+            <Fab color="primary" aria-label="add" onClick={addHandler} size={'large'} style={{marginLeft: '10px'}}>
                 <AddIcon/>
             </Fab>
-            {/*<button onClick={addHandler}>+</button>*/}
+            {/*<Button variant="outlined" onClick={addHandler} size={'large'}>+</Button>*/}
+            {/*<Fab color="primary" aria-label="add" onClick={addHandler} size={'small'}>*/}
+            {/*    <AddIcon/>*/}
+            {/*</Fab>*/}
             <div>
                 {/*{error && <span className={spanClassName}>{error}</span>}*/}
             </div>

@@ -2,9 +2,10 @@ import React from "react";
 import SuperInput from "./SuperInput";
 import {FilterValueType, TaskType} from "./App";
 import {SuperSpan} from "./SuperSpan";
-import {Button} from "@mui/material";
+import {Button, Checkbox, Fab, FormControlLabel} from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 type TodolistPropsType = {
     todolistId: string
@@ -63,35 +64,43 @@ export const Todolist = (props: TodolistPropsType) => {
     return (
         <div>
             <div>
-                <h3><SuperSpan title={props.title} changeTitle={changeTodolistTitle}/>
+                <h2 style={{textAlign: 'center'}}><SuperSpan title={props.title} changeTitle={changeTodolistTitle}/>
                     <IconButton size="small" onClick={removeTodolist}>
                         <DeleteIcon fontSize="inherit"/>
                     </IconButton>
                     {/*<Button onClick={removeTodolist}>X</Button>*/}
-                </h3>
+                </h2>
                 <SuperInput addHandler={addTask}/>
             </div>
             <div>
-                <ul>
+                <div>
                     {props.tasks.map(item => {
-                        return <li key={item.id}>
-                            <input type="checkbox" checked={item.isDone}
-                                   onChange={(e) => checkboxHandler(item.id, e.currentTarget.checked)}/>
+                        return <div key={item.id} style={{padding: '5px'}}>
+                            <Checkbox
+                                checked={item.isDone}
+                                onChange={(e) => checkboxHandler(item.id, e.currentTarget.checked)}
+                                inputProps={{'aria-label': 'controlled'}}
+                            />
+                            {/*<input type="checkbox" checked={item.isDone}*/}
+                            {/*       onChange={(e) => checkboxHandler(item.id, e.currentTarget.checked)}/>*/}
                             <SuperSpan title={item.title} changeTitle={(title) => changeTaskTitle(item.id, title)}/>
                             <IconButton onClick={() => removeTaskHandler(item.id)} size="small">
-                                <DeleteIcon fontSize="inherit" />
+                                <DeleteIcon fontSize="inherit"/>
                             </IconButton>
                             {/*<Button onClick={() => removeTaskHandler(item.id)}>X</Button>*/}
-                        </li>
+                        </div>
                     })}
-                </ul>
+                </div>
             </div>
-            <Button variant={props.filter === 'all' ? "contained" : "outlined"}
-                    onClick={() => filterHandler('all')}>All</Button>
-            <Button variant={props.filter === 'active' ? "contained" : "outlined"}
-                    onClick={() => filterHandler('active')}>Active</Button>
-            <Button variant={props.filter === 'completed' ? "contained" : "outlined"}
-                    onClick={() => filterHandler('completed')}>Completed</Button>
+            <div className='buttongroup'>
+                <Button variant={props.filter === 'all' ? "contained" : "outlined"}
+                        onClick={() => filterHandler('all')}>All</Button>
+                <Button variant={props.filter === 'active' ? "contained" : "outlined"}
+                        onClick={() => filterHandler('active')}>Active</Button>
+                <Button variant={props.filter === 'completed' ? "contained" : "outlined"}
+                        onClick={() => filterHandler('completed')}>Completed</Button>
+            </div>
+
         </div>
     )
 
